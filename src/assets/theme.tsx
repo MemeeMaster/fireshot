@@ -11,9 +11,10 @@ const theme = createTheme({
     },
   },
   custom: {
-    black: "#333",
+    black: "#242424",
     white: "#cecece",
     gray: "#6f6f6f",
+    darkGray: "#333",
   },
 });
 

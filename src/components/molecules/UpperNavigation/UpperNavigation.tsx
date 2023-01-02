@@ -7,12 +7,13 @@ import SearchBar from "../../atoms/SearchBar/SearchBar";
 
 const UpperNavigation = () => {
   return (
-    <AppBar>
+    <AppBar sx={{ boxShadow: "none" }}>
       <Toolbar
         sx={{
           padding: 2,
           justifyContent: "space-evenly",
           backgroundColor: theme.custom.black,
+          borderBottom: `1px solid ${theme.custom.gray}`,
         }}
       >
         <Logo />
