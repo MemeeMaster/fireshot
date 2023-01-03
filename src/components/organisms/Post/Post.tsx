@@ -15,18 +15,11 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import ShareIcon from "@mui/icons-material/Share";
 import Divider from "@mui/material/Divider";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
+import { Wrapper, StyledIcon } from "./Post.styles";
 
 const Post = () => {
   return (
-    <Stack
-      sx={{
-        width: "90%",
-        maxWidth: "470px",
-        margin: "10px auto 10px",
-        bgcolor: theme.custom.black,
-        border: `1px solid ${theme.custom.gray}`,
-      }}
-    >
+    <Wrapper>
       <Stack p={1} direction="row" sx={{ alignItems: "center" }}>
         <Avatar alt="" src="" sx={{ width: 36, height: 36 }} />
         <Typography
@@ -40,15 +33,15 @@ const Post = () => {
       </Stack>
       <Stack sx={{ padding: "0 8px 8px", overflow: "hidden" }}>
         <Stack direction="row" spacing={1} sx={{ color: theme.custom.gray }}>
-          <IconButton color="inherit" sx={{ padding: "8px 0" }}>
+          <StyledIcon>
             <FavoriteBorderIcon />
-          </IconButton>
-          <IconButton color="inherit" sx={{ padding: "8px 0" }}>
+          </StyledIcon>
+          <StyledIcon>
             <ChatBubbleOutlineIcon />
-          </IconButton>
-          <IconButton color="inherit" sx={{ padding: "8px 0" }}>
+          </StyledIcon>
+          <StyledIcon>
             <ShareIcon />
-          </IconButton>
+          </StyledIcon>
         </Stack>
         <Typography fontWeight="bold">Number of likes: 92</Typography>
         <Typography>Show 1 comment</Typography>
@@ -70,7 +63,7 @@ const Post = () => {
           endAdornment: <Button sx={{ margin: "0 8px 0" }}>Publish</Button>,
         }}
       />
-    </Stack>
+    </Wrapper>
   );
 };
 
