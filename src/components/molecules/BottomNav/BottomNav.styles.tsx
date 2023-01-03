@@ -3,7 +3,7 @@ import { BottomNavigation } from "@mui/material";
 import { styled } from "@mui/system";
 
 export const StyledBottomNavigation = styled(BottomNavigation)({
-  position: "fixed",
+  position: "sticky",
   bottom: 0,
   left: 0,
   right: 0,

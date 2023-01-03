@@ -7,7 +7,7 @@ import SearchBar from "../../atoms/SearchBar/SearchBar";
 
 const UpperNavigation = () => {
   return (
-    <AppBar sx={{ boxShadow: "none" }}>
+    <AppBar sx={{ position: "sticky", boxShadow: "none" }}>
       <Toolbar
         sx={{
           padding: 2,
