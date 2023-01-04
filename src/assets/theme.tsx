@@ -6,11 +6,15 @@ const theme = createTheme({
     primary: {
       main: colors.green[700],
     },
+    secondary: {
+      main: colors.grey[400],
+    },
   },
   custom: {
-    black: "#333",
+    black: "#242424",
     white: "#cecece",
     gray: "#6f6f6f",
+    darkGray: "#333",
   },
 });
 

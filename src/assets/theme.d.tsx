@@ -6,6 +6,7 @@ declare module "@mui/material/styles" {
       black: string;
       white: string;
       gray: string;
+      darkGray: string;
     };
   }
 
@@ -14,6 +15,7 @@ declare module "@mui/material/styles" {
       black: React.CSSProperties["color"];
       white: React.CSSProperties["color"];
       gray: React.CSSProperties["color"];
+      darkGray: React.CSSProperties["color"];
     };
   }
 }
