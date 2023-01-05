@@ -1,136 +1,83 @@
+import { useState, useEffect } from "react";
 import {
   Stack,
-  Avatar,
-  Typography,
-  Button,
-  Chip,
   ImageList,
   ImageListItem,
+  Divider,
+  Skeleton,
 } from "@mui/material";
-import ProfileChip from "../../components/atoms/ProfileChip/ProfileChip";
 import theme from "../../assets/theme";
-
-function srcset(image: string, size: number, rows = 1, cols = 1) {
-  return {
-    src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
-    srcSet: `${image}?w=${size * cols}&h=${
-      size * rows
-    }&fit=crop&auto=format&dpr=2 2x`,
-  };
-}
-
-const itemData = [
-  {
-    img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-    title: "Breakfast",
-    rows: 2,
-    cols: 2,
-  },
-  {
-    img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-    title: "Burger",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
-    title: "Camera",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
-    title: "Coffee",
-    cols: 2,
-  },
-  {
-    img: "https://images.unsplash.com/photo-1533827432537-70133748f5c8",
-    title: "Hats",
-    cols: 2,
-  },
-  {
-    img: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62",
-    title: "Honey",
-    author: "@arwinneil",
-    rows: 2,
-    cols: 2,
-  },
-  {
-    img: "https://images.unsplash.com/photo-1516802273409-68526ee1bdd6",
-    title: "Basketball",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
-    title: "Fern",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
-    title: "Mushrooms",
-    rows: 2,
-    cols: 2,
-  },
-  {
-    img: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
-    title: "Tomato basil",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
-    title: "Sea star",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
-    title: "Bike",
-    cols: 2,
-  },
-];
+import { db } from "../../assets/firebase";
+import {
+  getDoc,
+  getDocs,
+  query,
+  where,
+  collection,
+  doc,
+  DocumentData,
+} from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import getErrorMessage from "../../utils/getErrorMessage";
+import ProfileDetails from "../../components/organisms/ProfileDetails/ProfileDetails";
 
 const Profile = () => {
+  const navigate = useNavigate();
+  const [details, setDetails] = useState<DocumentData>();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [posts, setPosts] = useState<DocumentData[]>([]);
+
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        const userSnap = await getDoc(doc(db, "users", "CCEGpu3aK3OZ8ihq5xdC"));
+
+        const q = query(
+          collection(db, "posts"),
+          where("authorId", "==", "CCEGpu3aK3OZ8ihq5xdC")
+        );
+        const postSnap = await getDocs(q);
+
+        postSnap.forEach((doc) => {
+          setPosts([...posts, doc.data()]);
+        });
+
+        if (userSnap.exists()) {
+          setDetails(userSnap.data());
+          setLoading(false);
+        } else navigate("/fireshot/404");
+      } catch (err) {
+        console.error(getErrorMessage(err));
+        navigate("/fireshot/404");
+      }
+    };
+    getProfile();
+  }, []);
+
   return (
     <Stack sx={{ paddingBottom: "40px" }}>
-      <Stack p={2} spacing={2} direction="row">
-        <Avatar sx={{ height: "90px", width: "90px" }} />
-        <Stack justifyContent="space-evenly">
-          <Typography
-            variant="h4"
-            component="p"
-            sx={{ color: theme.custom.white }}
-          >
-            nickname
-          </Typography>
-          <Button fullWidth variant="outlined">
-            Edit profile
-          </Button>
-        </Stack>
-      </Stack>
-      <Stack padding="0 16px 8px">
-        <Typography sx={{ color: theme.custom.white, fontWeight: "bold" }}>
-          Joe Baggins
-        </Typography>
-        <Typography sx={{ color: theme.custom.white }}>
-          description 🌭
-        </Typography>
-      </Stack>
-      <Stack direction="row" justifyContent="space-evenly" padding="16px">
-        <ProfileChip label="14 Posts" />
-        <ProfileChip label="300 Followers" />
-        <ProfileChip label="400 Following" />
-      </Stack>
-      <ImageList
-        sx={{ width: "100%" }}
-        variant="quilted"
-        cols={4}
-        rowHeight={121}
-      >
-        {itemData.map((item) => (
-          <ImageListItem
-            key={item.img}
-            cols={item.cols || 1}
-            rows={item.rows || 1}
-          >
-            <img
-              {...srcset(item.img, 121, item.rows, item.cols)}
-              alt={item.title}
-              loading="lazy"
-            />
-          </ImageListItem>
-        ))}
-      </ImageList>
+      <ProfileDetails loading={loading} details={details} posts={posts} />
+      <Divider sx={{ backgroundColor: theme.custom.gray }} />
+      {!loading ? (
+        <ImageList
+          sx={{ height: 450, marginTop: "2px" }}
+          cols={3}
+          rowHeight={164}
+        >
+          {posts.map((item: DocumentData) => (
+            <ImageListItem sx={{ cursor: "pointer" }} key={item.url}>
+              <img
+                src={`${item.url}?w=164&h=164&fit=crop&auto=format`}
+                srcSet={`${item.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                alt={item.description}
+                loading="lazy"
+              />
+            </ImageListItem>
+          ))}
+        </ImageList>
+      ) : (
+        <Skeleton variant="rectangular" height={500} />
+      )}
     </Stack>
   );
 };

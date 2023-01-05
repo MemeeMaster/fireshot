@@ -1,10 +1,8 @@
-import React from "react";
 import { Stack } from "@mui/system";
 import {
   Avatar,
   TextField,
   Typography,
-  IconButton,
   InputAdornment,
   Button,
 } from "@mui/material";
@@ -20,7 +18,11 @@ import { Wrapper, StyledIcon } from "./Post.styles";
 const Post = () => {
   return (
     <Wrapper>
-      <Stack p={1} direction="row" sx={{ alignItems: "center" }}>
+      <Stack
+        p={1}
+        direction="row"
+        sx={{ alignItems: "center", cursor: "pointer" }}
+      >
         <Avatar alt="" src="" sx={{ width: 36, height: 36 }} />
         <Typography
           sx={{ marginLeft: 1, fontWeight: "bold", color: theme.custom.gray }}
