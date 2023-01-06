@@ -15,7 +15,7 @@ import Divider from "@mui/material/Divider";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import { Wrapper, StyledIcon } from "./Post.styles";
 
-const Post = () => {
+const Post = ({ likes }: { likes: number }) => {
   return (
     <Wrapper>
       <Stack
@@ -45,7 +45,7 @@ const Post = () => {
             <ShareIcon />
           </StyledIcon>
         </Stack>
-        <Typography fontWeight="bold">Number of likes: 92</Typography>
+        <Typography fontWeight="bold">Number of likes: {likes}</Typography>
         <Typography>Show 1 comment</Typography>
         <Typography variant="body2">1 day ago</Typography>
       </Stack>
