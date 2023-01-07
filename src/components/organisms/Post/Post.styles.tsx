@@ -1,4 +1,4 @@
-import { Stack, IconButton } from "@mui/material";
+import { Stack } from "@mui/material";
 import { styled } from "@mui/system";
 import theme from "../../../assets/theme";
 
@@ -10,7 +10,3 @@ export const Wrapper = styled(Stack)({
   border: `1px solid ${theme.custom.gray}`,
 });
 
-export const StyledIcon = styled(IconButton)({
-  color: "inherit",
-  padding: "8px 0",
-});

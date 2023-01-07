@@ -55,7 +55,7 @@ const Profile = () => {
   }, []);
 
   return (
-    <Stack sx={{ paddingBottom: "40px" }}>
+    <Stack sx={{ padding: "70px 0 40px" }}>
       <ProfileDetails loading={loading} details={details} posts={posts} />
       <Divider sx={{ backgroundColor: theme.custom.gray }} />
       {!loading ? (

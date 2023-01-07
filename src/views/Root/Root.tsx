@@ -15,7 +15,7 @@ const Root = () => {
         sx={{
           minHeight: "100vh",
           bgcolor: theme.custom.darkGray,
-          overflow: 'hidden',
+          overflow: "hidden",
         }}
       >
         <CssBaseline />

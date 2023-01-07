@@ -5,17 +5,26 @@ import {
   Typography,
   InputAdornment,
   Button,
+  Box,
+  Skeleton,
 } from "@mui/material";
 import theme from "../../../assets/theme";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
-import ShareIcon from "@mui/icons-material/Share";
+
 import Divider from "@mui/material/Divider";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
-import { Wrapper, StyledIcon } from "./Post.styles";
+import { Wrapper } from "./Post.styles";
+import { DocumentData } from "firebase/firestore";
+import convertTimestamp from "../../../utils/convertTimestamp";
+import ReactionIcons from "../../molecules/ReactionIcons/ReactionIcons";
 
-const Post = ({ likes }: { likes: number }) => {
+const Post = ({
+  authorAvatar,
+  authorName,
+  description,
+  likes,
+  url,
+  date,
+}: DocumentData) => {
   return (
     <Wrapper>
       <Stack
@@ -23,31 +32,33 @@ const Post = ({ likes }: { likes: number }) => {
         direction="row"
         sx={{ alignItems: "center", cursor: "pointer" }}
       >
-        <Avatar alt="" src="" sx={{ width: 36, height: 36 }} />
+        <Avatar
+          alt={`${authorName} profile picture`}
+          src={authorAvatar}
+          sx={{ width: 36, height: 36 }}
+        />
         <Typography
           sx={{ marginLeft: 1, fontWeight: "bold", color: theme.custom.gray }}
         >
-          nickname
+          {authorName}
         </Typography>
       </Stack>
       <Stack>
-        <img src="https://source.unsplash.com/random/470x470" />
+        <img src={url} alt={description} loading="lazy" />
       </Stack>
       <Stack sx={{ padding: "0 8px 8px", overflow: "hidden" }}>
-        <Stack direction="row" spacing={1} sx={{ color: theme.custom.gray }}>
-          <StyledIcon>
-            <FavoriteBorderIcon />
-          </StyledIcon>
-          <StyledIcon>
-            <ChatBubbleOutlineIcon />
-          </StyledIcon>
-          <StyledIcon>
-            <ShareIcon />
-          </StyledIcon>
-        </Stack>
+        <ReactionIcons />
         <Typography fontWeight="bold">Number of likes: {likes}</Typography>
+        {description !== "" ? (
+          <Typography>
+            <Box component="span" fontWeight="bold">
+              {authorName}
+            </Box>
+            &nbsp;{description}
+          </Typography>
+        ) : null}
         <Typography>Show 1 comment</Typography>
-        <Typography variant="body2">1 day ago</Typography>
+        <Typography variant="body2">{convertTimestamp(date)}</Typography>
       </Stack>
       <Divider sx={{ backgroundColor: theme.custom.gray }} />
       <TextField
